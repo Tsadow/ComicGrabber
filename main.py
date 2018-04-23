@@ -1,3 +1,4 @@
+# a script to collect webcomics for easier reading that individually visiting sites
 
 # imports
 from bs4 import BeautifulSoup
@@ -21,10 +22,6 @@ def get_document_object(link):
 
 def get_xkcd():
     link = "xkcd.com"
-    #conn = http.client.HTTPSConnection(link)
-    #conn.request("GET", "/")
-    #doc = conn.getresponse()
-    #soup = BeautifulSoup(doc, "html.parser")
     soup = get_document_object(link)
 
     imge = soup.select_one("#comic > img")    
@@ -37,10 +34,6 @@ def get_xkcd():
 
 def get_dhs():
     link = "donthitsave.com"
-    #conn = http.client.HTTPSConnection(link)
-    #conn.request("GET", "/")
-    #doc = conn.getresponse()
-    #soup = BeautifulSoup(doc, "html.parser")
     soup = get_document_object(link)
 
     imge = soup.select_one(".comicfull")
@@ -86,5 +79,6 @@ def get_gwtb():
     local_name = link + extension
 
     urllib.request.urlretrieve(src_string, local_name)
+
 # run main
 main()

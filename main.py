@@ -7,24 +7,39 @@ import urllib.request
 import re
 
 def main():
-    links = {"xkcd.com"}
+    get_xkcd()
+    get_dhs()
 
-    for link in links:
-        conn = http.client.HTTPSConnection(link)
-        conn.request("GET", "/")
-        doc = conn.getresponse()
-        soup = BeautifulSoup(doc, "html.parser")
-        imge = soup.select_one("#comic > img")
-        
-        src_string = imge['src']
+def get_xkcd():
+    link = "xkcd.com"
+    conn = http.client.HTTPSConnection(link)
+    conn.request("GET", "/")
+    doc = conn.getresponse()
+    soup = BeautifulSoup(doc, "html.parser")
 
-        extension = ".png"
-        local_name = link + extension
+    imge = soup.select_one("#comic > img")    
+    src_string = imge['src']
 
-        urllib.request.urlretrieve("https:" + src_string, local_name)
+    extension = ".png"
+    local_name = link + extension
 
-        #print(src_string)
-        #print(soup.prettify())
+    urllib.request.urlretrieve("https:" + src_string, local_name)
+
+def get_dhs():
+    link = "donthitsave.com"
+    conn = http.client.HTTPSConnection(link)
+    conn.request("GET", "/")
+    doc = conn.getresponse()
+    soup = BeautifulSoup(doc, "html.parser")
+
+    imge = soup.select_one(".comicfull")
+    src_string = imge['src']
+
+    extension = ".png"
+    local_name = link + extension
+
+    urllib.request.urlretrieve(src_string, local_name)
+
 
 # run main
 main()

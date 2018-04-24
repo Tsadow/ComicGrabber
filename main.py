@@ -7,12 +7,18 @@ import http.client
 import urllib.request
 import re
 
+# "statics"
+_extension = ".png"
+
+# main funcion
 def main():
     get_xkcd()
     #get_dhs()
     get_mollybeans()
     get_callmechuck()
     get_gwtb()
+
+# non-comic-specific
 
 def get_document_object_https(link):
     # make https connection to given URL
@@ -32,18 +38,25 @@ def get_document_object_http(link):
     # return a beautiful soup object made from the webpage content
     return BeautifulSoup(doc, "html.parser")
 
+def get_src_string(soup, path_to_img):
+    # follow given document tree path to img element
+    img = soup.select_one(path_to_img)
+    # return src attribute of img element
+    return img['src']
+
+# comic-specific
+
 def get_xkcd():
     link = "xkcd.com"
     # https  
     soup = get_document_object_https(link)
 
-    # go to the img element containing the comic and get the src
-    imge = soup.select_one("#comic > img")    
-    src_string = imge['src']
+    # get the src
+    path_to_img = "#comic > img"   
+    src_string = get_src_string(soup, path_to_img)
 
-    # building strings
-    extension = ".png"
-    local_name = link + extension
+    # build filename string
+    local_name = link + _extension
 
     # download the comic (includes a fix for how the site references the image files)
     urllib.request.urlretrieve("https:" + src_string, local_name)
@@ -53,13 +66,12 @@ def get_dhs():
     # https  
     soup = get_document_object_https(link)
 
-    # go to the img element containing the comic and get the src
-    imge = soup.select_one(".comicfull")
-    src_string = imge['src']
+    # get the src
+    path_to_img = ".comicfull"
+    src_string = get_src_string(soup, path_to_img)
 
-    # building strings
-    extension = ".png"
-    local_name = link + extension
+    # build filename string
+    local_name = link + _extension
 
     # download the comic !!!doesn't work yet due to ssl/sni issue
     urllib.request.urlretrieve(src_string, local_name)
@@ -69,13 +81,12 @@ def get_mollybeans():
     # https  
     soup = get_document_object_https(link)
 
-    # go to the img element containing the comic and get the src
-    imge = soup.select_one(".entry-comic > article > a > img")
-    src_string = imge['src']
+    # get the src
+    path_to_img = ".entry-comic > article > a > img"
+    src_string = get_src_string(soup, path_to_img)
 
-    # string building
-    extension = ".png"
-    local_name = link + extension
+    # build filename string
+    local_name = link + _extension
 
     # download the comic
     urllib.request.urlretrieve(src_string, local_name)
@@ -85,13 +96,12 @@ def get_callmechuck():
     # http  
     soup = get_document_object_http(link)
 
-    # go to the img element containing the comic and get the src
-    imge = soup.select_one(".entry-comic > article > a > img")
-    src_string = imge['src']
+    # get the src
+    path_to_img = ".entry-comic > article > a > img"
+    src_string = get_src_string(soup, path_to_img)
 
-    # string building
-    extension = ".png"
-    local_name = link + extension
+    # build filename string
+    local_name = link + _extension
 
     # download the comic
     urllib.request.urlretrieve(src_string, local_name)
@@ -101,15 +111,15 @@ def get_gwtb():
     # http  
     soup = get_document_object_http(link)
 
-    imge = soup.select_one(".comic_title ~ img")
-    src_string = imge['src']
+    # get the src
+    path_to_img = ".comic_title ~ img"
+    src_string = get_src_string(soup, path_to_img)
 
     #nonstandard src_string because of how site references the image files
     src_string = "http://www.blastwave-comic.com" + src_string[1:]
 
-    # string building
-    extension = ".png"
-    local_name = link + extension
+    # build filename string
+    local_name = link + _extension
 
     # download the comic
     urllib.request.urlretrieve(src_string, local_name)

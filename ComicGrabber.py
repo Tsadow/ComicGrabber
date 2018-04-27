@@ -65,9 +65,6 @@ def get_xkcd():
     # download the comic (includes a fix for how the site references the image files)
     urllib.request.urlretrieve("https:" + src_string, local_name)
 
-    # return the alt text of the image
-    return t
-
 def get_dhs():
     link = "donthitsave.com"
     # https  

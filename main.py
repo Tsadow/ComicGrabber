@@ -38,11 +38,11 @@ def get_document_object_http(link):
     # return a beautiful soup object made from the webpage content
     return BeautifulSoup(doc, "html.parser")
 
-def get_src_string(soup, path_to_img):
+def get_element_attribute(soup, path_to_img, attr='src'):
     # follow given document tree path to img element
     img = soup.select_one(path_to_img)
     # return src attribute of img element
-    return img['src']
+    return img[attr]
 
 # comic-specific
 
@@ -53,13 +53,19 @@ def get_xkcd():
 
     # get the src
     path_to_img = "#comic > img"   
-    src_string = get_src_string(soup, path_to_img)
+    src_string = get_element_attribute(soup, path_to_img)
+
+    # get the alt text of the image
+    t = get_element_attribute(soup, path_to_img, attr='title')
 
     # build filename string
     local_name = link + _extension
 
     # download the comic (includes a fix for how the site references the image files)
     urllib.request.urlretrieve("https:" + src_string, local_name)
+
+    # return the alt text of the image
+    return t
 
 def get_dhs():
     link = "donthitsave.com"
@@ -68,7 +74,7 @@ def get_dhs():
 
     # get the src
     path_to_img = ".comicfull"
-    src_string = get_src_string(soup, path_to_img)
+    src_string = get_element_attribute(soup, path_to_img)
 
     # build filename string
     local_name = link + _extension
@@ -83,7 +89,7 @@ def get_mollybeans():
 
     # get the src
     path_to_img = ".entry-comic > article > a > img"
-    src_string = get_src_string(soup, path_to_img)
+    src_string = get_element_attribute(soup, path_to_img)
 
     # build filename string
     local_name = link + _extension
@@ -98,7 +104,7 @@ def get_callmechuck():
 
     # get the src
     path_to_img = ".entry-comic > article > a > img"
-    src_string = get_src_string(soup, path_to_img)
+    src_string = get_element_attribute(soup, path_to_img)
 
     # build filename string
     local_name = link + _extension
@@ -113,7 +119,7 @@ def get_gwtb():
 
     # get the src
     path_to_img = ".comic_title ~ img"
-    src_string = get_src_string(soup, path_to_img)
+    src_string = get_element_attribute(soup, path_to_img)
 
     #nonstandard src_string because of how site references the image files
     src_string = "http://www.blastwave-comic.com" + src_string[1:]

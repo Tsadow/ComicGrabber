@@ -8,6 +8,7 @@ import urllib.request
 import re
 
 # "statics"
+_folder = ".\\img\\"
 _extension = ".png"
 
 # main funcion
@@ -59,7 +60,7 @@ def get_xkcd():
     t = get_element_attribute(soup, path_to_img, attr='title')
 
     # build filename string
-    local_name = link + _extension
+    local_name = _folder + link + _extension
 
     # download the comic (includes a fix for how the site references the image files)
     urllib.request.urlretrieve("https:" + src_string, local_name)
@@ -77,7 +78,7 @@ def get_dhs():
     src_string = get_element_attribute(soup, path_to_img)
 
     # build filename string
-    local_name = link + _extension
+    local_name = _folder + link + _extension
 
     # download the comic !!!doesn't work yet due to ssl/sni issue
     urllib.request.urlretrieve(src_string, local_name)
@@ -92,7 +93,7 @@ def get_mollybeans():
     src_string = get_element_attribute(soup, path_to_img)
 
     # build filename string
-    local_name = link + _extension
+    local_name = _folder + link + _extension
 
     # download the comic
     urllib.request.urlretrieve(src_string, local_name)
@@ -107,7 +108,7 @@ def get_callmechuck():
     src_string = get_element_attribute(soup, path_to_img)
 
     # build filename string
-    local_name = link + _extension
+    local_name = _folder + link + _extension
 
     # download the comic
     urllib.request.urlretrieve(src_string, local_name)
@@ -125,7 +126,7 @@ def get_gwtb():
     src_string = "http://www.blastwave-comic.com" + src_string[1:]
 
     # build filename string
-    local_name = link + _extension
+    local_name = _folder + link + _extension
 
     # download the comic
     urllib.request.urlretrieve(src_string, local_name)

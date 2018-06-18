@@ -14,7 +14,7 @@ _extension = ".png"
 # main funcion
 def main():
     get_xkcd()
-    #get_dhs()
+    get_dhs()
     get_mollybeans()
     get_callmechuck()
     get_gwtb()
@@ -42,7 +42,7 @@ def get_document_object_http(link):
 def get_element_attribute(soup, path_to_img, attr='src'):
     # follow given document tree path to img element
     img = soup.select_one(path_to_img)
-    # return src attribute of img element
+    # return requested attribute of img element
     return img[attr]
 
 # comic-specific
@@ -57,7 +57,7 @@ def get_xkcd():
     src_string = get_element_attribute(soup, path_to_img)
 
     # get the alt text of the image
-    t = get_element_attribute(soup, path_to_img, attr='title')
+    title = get_element_attribute(soup, path_to_img, attr='title')
 
     # build filename string
     local_name = _folder + link + _extension
@@ -68,7 +68,7 @@ def get_xkcd():
 def get_dhs():
     link = "donthitsave.com"
     # https  
-    soup = get_document_object_https(link)
+    soup = get_document_object_http(link)
 
     # get the src
     path_to_img = ".comicfull"
@@ -77,7 +77,7 @@ def get_dhs():
     # build filename string
     local_name = _folder + link + _extension
 
-    # download the comic !!!doesn't work yet due to ssl/sni issue
+    # download the comic
     urllib.request.urlretrieve(src_string, local_name)
 
 def get_mollybeans():

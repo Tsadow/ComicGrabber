@@ -59,6 +59,10 @@ def get_xkcd():
     # get the alt text of the image
     title = get_element_attribute(soup, path_to_img, attr='title')
 
+    # store alt text
+    with open(_folder + link + ".txt", "w") as text_file:
+        print(title, file=text_file)
+
     # build filename string
     local_name = _folder + link + _extension
 

@@ -23,7 +23,7 @@
             if(strcmp($img, "img/xkcd.com.png") == 0){
                 $altFilePath = preg_replace($postfixRegex, '', $img);
                 $altFilePath = $altFilePath . ".txt";
-                $altFile = fopen($altFilePath, "r") or die("FileNotFoundException: not alt text");
+                $altFile = fopen($altFilePath, "r") or die("FileNotFoundException: no alt text");
                 $altText = fgets($altFile);
                 fclose($altFile);
             }

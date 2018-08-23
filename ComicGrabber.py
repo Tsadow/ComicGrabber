@@ -16,7 +16,7 @@ def main():
     get_xkcd()
     get_dhs()
     get_mollybeans()
-    get_callmechuck()
+    #get_callmechuck()
     get_gwtb()
 
 # non-comic-specific

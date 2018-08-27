@@ -18,6 +18,7 @@ def main():
     get_mollybeans()
     #get_callmechuck()
     get_gwtb()
+    get_swords()
 
 # non-comic-specific
 
@@ -56,12 +57,13 @@ def get_xkcd():
     path_to_img = "#comic > img"   
     src_string = get_element_attribute(soup, path_to_img)
 
+    #TODO: Handle emojis
     # get the alt text of the image
-    title = get_element_attribute(soup, path_to_img, attr='title')
+    # title = get_element_attribute(soup, path_to_img, attr='title')
 
     # store alt text
-    with open(_folder + link + ".txt", "w") as text_file:
-        print(title, file=text_file)
+    # with open(_folder + link + ".txt", "w") as text_file:
+        # print(title, file=text_file)
 
     # build filename string
     local_name = _folder + link + _extension
@@ -123,8 +125,23 @@ def get_gwtb():
     path_to_img = ".comic_title ~ img"
     src_string = get_element_attribute(soup, path_to_img)
 
-    #nonstandard src_string because of how site references the image files
+    # nonstandard src_string because of how site references the image files
     src_string = "http://www.blastwave-comic.com" + src_string[1:]
+
+    # build filename string
+    local_name = _folder + link + _extension
+
+    # download the comic
+    urllib.request.urlretrieve(src_string, local_name)
+
+def get_swords():
+    link = "swordscomic.com"
+    # https
+    soup = get_document_object_https(link)
+
+    # get the src
+    path_to_img = ".photo-hires-item > img"
+    src_string = get_element_attribute(soup, path_to_img)
 
     # build filename string
     local_name = _folder + link + _extension

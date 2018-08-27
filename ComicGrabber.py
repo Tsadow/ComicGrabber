@@ -57,13 +57,15 @@ def get_xkcd():
     path_to_img = "#comic > img"   
     src_string = get_element_attribute(soup, path_to_img)
 
-    #TODO: Handle emojis
-    # get the alt text of the image
-    # title = get_element_attribute(soup, path_to_img, attr='title')
+    try:
+        # get the alt text of the image
+        title = get_element_attribute(soup, path_to_img, attr='title')
 
-    # store alt text
-    # with open(_folder + link + ".txt", "w") as text_file:
-        # print(title, file=text_file)
+        # store alt text
+        with open(_folder + link + ".txt", "w") as text_file:
+            print(title, file=text_file)
+    except:
+        print("there was probably an emoji in the alt text :(")
 
     # build filename string
     local_name = _folder + link + _extension
